@@ -1,0 +1,33 @@
+-- Create Grocery Store Database
+
+CREATE TABLE store (id INTEGER PRIMARY KEY, item TEXT, price INTEGER, isle integer, department TEXT);
+
+INSERT INTO store VALUES
+(1, 'bike', 95, 12, 'toys'),
+(2, 'glove', 25, 12, 'toys'),
+(3, 'iced tea', 5, 3, 'grocery'),
+(4, 'coffee', 7, 3, 'grocery'),
+(5, 'chocolate milk', 3, 4, 'grocery'),
+(6, 'yogurt', 6, 4, 'grocery'),
+(7, 'pudding', 4, 4, 'grocery'), 
+(8, 'bread', 6, 6, 'grocery'),
+(9, 'picture frame', 12, 11, 'housewares'),
+(10, 'candles', 10, 11, 'housewares'),
+(11, 'chocolate', 2, 1, 'grocery'),
+(12, 'pumpkin', 4, 5, 'grocery'),
+(13, 'crystal light', 4, 3, 'grocery'),
+(14, 'tomato soup', 3, 5, 'grocery'),
+(15, 'instant pot', 50, 11, 'housewares');
+
+-- Display Databse Ordered by Price
+
+SELECT * FROM store ORDER BY price;
+
+-- Display Grocery Department by Isle
+
+SELECT * FROM store WHERE department='grocery' ORDER BY isle;
+
+-- Display Average Price for Each Department
+
+SELECT department, AVG(price) FROM store GROUP BY department
+
