@@ -1,0 +1,30 @@
+#In this SQL, I'm querying a table to answer questions about Superbowl stats. 
+
+#1. What was the highest number of points scored by winning team?
+SELECT MAX(Winner_Pts) from superbowls;
+
+#2. How many aver points did the losing team score?
+SELECT ROUND (AVG (Loser_Pts)) from superbowls;
+
+#3. What was the lowest number of points scored by winning team?
+SELECT MIN (Winner_Pts) from superbowls;
+
+#4. What is the lowest number of points scored by the winning team?
+SELECT Winner, COUNT (Winner) AS "#_wins" from superbowls GROUP BY Winner HAVING "#_wins" >= 4;
+
+#5. Assign an excitement level given the total points scored in the game.
+SELECT SB, Winner,
+     CASE 
+     WHEN SUM(Winner_Pts+Loser_Pts) > 70 THEN "fun"
+     WHEN SUM(Winner_Pts+Loser_Pts) > 60 THEN "average"
+     WHEN SUM(Winner_Pts+Loser_Pts) > 50 THEN "fair"
+     ELSE "boring"
+     END AS "excitement_level" 
+     FROM superbowls
+     GROUP BY sb;
+     
+#6. Find superbowls where the final score of winning team was 30 or greater and losing team was 10 or less.
+SELECT SB, Winner_Pts, Loser_Pts
+FROM superbowls
+WHERE Winner_Pts>=30 AND Loser_Pts<=10
+ORDER BY Winner_Pts DESC;
