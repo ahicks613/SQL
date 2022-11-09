@@ -1,0 +1,56 @@
+#In this SQL, I used multiple tables in the AdventureWorks database to query customer order information.
+
+#1. A "Single Item Order" is a customer order where only one item is ordered. Show the SalesOrderID and the UnitPrice for every Single Item Order.
+SELECT SalesOrderId, UnitPrice
+FROM SalesOrderDetail
+WHERE OrderQty = 1;
+
+#2. Where did the racing socks go? List the product name and the CompanyName for all Customers who ordered ProductModel 'Racing Socks'.
+SELECT p.Name, c.CompanyName
+FROM Product p
+JOIN SalesOrderDetail s
+ON p.ProductID = s.ProductID
+JOIN SalesOrderHeader so
+ON s.SalesOrderID = so.SalesOrderID
+JOIN Customer c
+ON so.CustomerID = c.CustomerID
+WHERE name like '%Racing Socks%';
+
+#3. Show the product description for culture 'fr' for product with ProductID 736.
+SELECT pd.Description
+FROM ProductDescription pd
+JOIN ProductModelProductDescription pm
+ON pd.ProductDescriptionID = pm.ProductDescriptionID
+JOIN ProductModel pl
+ON pm.ProductModelID = pl.ProductModelID
+JOIN Product p
+ON pl.ProductModelID = p.ProductModelID
+WHERE pm.Culture = 'fr' and p.ProductID = 736;
+
+#4. Use the SubTotal value in SaleOrderHeader to list orders from the largest to the smallest. For each order show the CompanyName and the SubTotal and the total weight of the order.
+SELECT c.CompanyName, soh.SubTotal, SUM(sod.OrderQty * p.weight) as TotalWeight
+FROM SalesOrderHeader soh
+JOIN Customer c
+ON soh.CustomerID = c.CustomerID
+JOIN SalesOrderDetail sod
+ON sod.SalesOrderID = soh.SalesOrderID
+JOIN Product p 
+ON p.ProductID = sod.ProductID
+GROUP BY c.CompanyName, soh.SubTotal
+ORDER BY soh.SubTotal DESC;
+
+#5. How many products in ProductCategory 'Cranksets' have been sold to an address in 'London'?
+SELECT SUM(sod.OrderQty)
+FROM ProductCategory pc
+JOIN Product p
+ON pc.ProductCategoryID = p.ProductCategoryID
+JOIN SalesOrderDetail sod
+ON sod.ProductID = p.ProductID
+JOIN SalesOrderHeader soh
+ON sod.SalesOrderID = soh.SalesOrderID
+JOIN CustomerAddress ca
+ON ca.CustomerID = soh.CustomerID
+JOIN Address a
+ON a.AddressID = ca.AddressID
+WHERE pc.name = 'Cranksets' and a.City = 'London';
+
