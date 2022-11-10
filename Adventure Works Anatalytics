@@ -54,3 +54,26 @@ JOIN Address a
 ON a.AddressID = ca.AddressID
 WHERE pc.name = 'Cranksets' and a.City = 'London';
 
+#6. For each order show the SalesOrderID and SubTotal calculated three ways:
+A) From the SalesOrderHeader
+B) Sum of OrderQty*UnitPrice
+C) Sum of OrderQty*ListPrice
+SELECT soh.SalesOrderID,soh.subtotal as subtotal, SUM(sod.OrderQty*sod.UnitPrice) AS unit, SUM(sod.orderqty*p.listprice) AS list
+FROM SalesOrderHeader soh
+JOIN SalesOrderDetail sod
+ON sod.SalesOrderID = soh.SalesOrderID
+JOIN Product p
+ON p.ProductID = sod.ProductID
+GROUP BY soh.SalesOrderID, soh.subtotal;
+
+#7. Show the best selling item by value.
+SELECT p.name, SUM(sod.orderqty*sod.unitprice) as value
+FROM Product p
+JOIN SalesOrderDetail sod
+ON sod.ProductID = p.ProductID 
+GROUP BY p.name
+ORDER BY value desc;
+
+
+
+
