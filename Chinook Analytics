@@ -52,3 +52,20 @@ SELECT SUM(invoices.total)
 FROM chinook.invoices
 WHERE invoices.invoicedate like '%2009%';
 
+#10 Write a query that includes the purchased track name with each invoice line ID.
+SELECT ii.invoicelineid, t.name
+FROM chinook.invoice_items ii
+JOIN chinook.tracks t
+ON ii.trackid = t.trackid;
+
+#11 Write a query that includes the purchased track name AND artist name with each invoice line ID.
+SELECT ii.invoicelineid, t.name as track, art.name as artist
+FROM chinook.invoice_items ii
+JOIN chinook.tracks t
+ON ii.trackid = t.trackid
+JOIN chinook.albums a
+ON t.albumid = a.albumid
+JOIN chinook.artists art
+ON a.artistid = art.artistid;
+
+
