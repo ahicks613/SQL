@@ -115,4 +115,17 @@ WHERE e.title = 'Sales Support Agent' AND i.invoicedate like '%2009%'
 GROUP BY e.lastname
 ORDER BY Total_Sales DESC LIMIT 1;
 
+#17
+--What are the total sales by genre?
+SELECT mt.name as Type, ROUND(SUM(i.total),2) as Total
+FROM chinook.invoices i
+JOIN chinook.invoice_items II
+ON i.invoiceid = ii.invoiceid
+JOIN chinook.tracks t
+ON ii.trackid = t.trackid
+JOIN chinook.media_types mt
+ON t.mediatypeid = mt.mediatypeid
+GROUP BY mt.name
+ORDER BY Total DESC;
+
 
