@@ -8,7 +8,7 @@ SELECT *
 FROM chinook.customers
 WHERE customers.country = 'Brazil';
 
-# 3 Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+# 3 Find the Invoices of customers who are from Brazil.
 SELECT c.firstname, c.lastname, i.invoiceid, i.invoicedate, i.billingcountry
 FROM chinook.invoices i
 JOIN chinook.customers c
@@ -24,7 +24,7 @@ WHERE employees.title = 'Sales Support Agent';
 SELECT DISTINCT invoices.billingcountry
 FROM chinook.invoices;
 
-#6 Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+#6 Find the invoices associated with each sales agent.
 SELECT i.invoiceid, e.firstname, e.lastname
 FROM chinook.invoices i
 JOIN chinook.customers c
@@ -52,13 +52,13 @@ SELECT SUM(invoices.total)
 FROM chinook.invoices
 WHERE invoices.invoicedate like '%2009%';
 
-#10 Write a query that includes the purchased track name with each invoice line ID.
+#10 Query the purchased track name with each invoice line ID.
 SELECT ii.invoicelineid, t.name
 FROM chinook.invoice_items ii
 JOIN chinook.tracks t
 ON ii.trackid = t.trackid;
 
-#11 Write a query that includes the purchased track name AND artist name with each invoice line ID.
+#11 Show the purchased track name and artist name with each invoice line ID.
 SELECT ii.invoicelineid, t.name as track, art.name as artist
 FROM chinook.invoice_items ii
 JOIN chinook.tracks t
@@ -68,24 +68,8 @@ ON t.albumid = a.albumid
 JOIN chinook.artists art
 ON a.artistid = art.artistid;
 
-#12 Write a query that includes the purchased track name with each invoice line ID.
-SELECT ii.invoicelineid, t.name
-FROM chinook.invoice_items ii
-JOIN chinook.tracks t
-ON ii.trackid = t.trackid;
-
-#13 Write a query that includes the purchased track name AND artist name with each invoice line ID.
-SELECT ii.invoicelineid, t.name as track, art.name as artist
-FROM chinook.invoice_items ii
-JOIN chinook.tracks t
-ON ii.trackid = t.trackid
-JOIN chinook.albums a
-ON t.albumid = a.albumid
-JOIN chinook.artists art
-ON a.artistid = art.artistid;
-
-#14 Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
-SELECT t.name as track, a.title as artist, m.name as media, g.name as genre
+#12 Query all tracks and include album name, media type, and genre.
+SELECT t.name as 'Track Name', a.title as 'Album Name', m.name as 'Media Type', g.name as 'Genre'
 FROM chinook.tracks t
 JOIN chinook.albums a
 ON t.albumid = a.albumid
@@ -94,7 +78,7 @@ ON t.mediatypeid = m.mediatypeid
 JOIN chinook.genres g
 ON t.genreid = g.genreid;
 
-#15 Show the total sales made by each sales agent.
+#13 Show the total sales made by each sales agent.
 SELECT ROUND(SUM(i.total),2) as Sales, e.lastname AS Last_Name
 FROM chinook.employees e
 JOIN chinook.customers c
@@ -104,7 +88,7 @@ ON c.customerid = i.customerid
 WHERE e.title = 'Sales Support Agent'
 GROUP BY e.lastname;
 
-#16 Which sales agent made the most dollars in sales in 2009?
+#14 Which sales agent made the most dollars in sales in 2009?
 SELECT e.firstname as First, e.lastname as Last, ROUND(SUM(i.total),2) AS Total_Sales
 FROM chinook.employees e
 JOIN chinook.customers c
@@ -115,8 +99,7 @@ WHERE e.title = 'Sales Support Agent' AND i.invoicedate like '%2009%'
 GROUP BY e.lastname
 ORDER BY Total_Sales DESC LIMIT 1;
 
-#17
---What are the total sales by genre?
+#15 What are the total sales by genre?
 SELECT mt.name as Type, ROUND(SUM(i.total),2) as Total
 FROM chinook.invoices i
 JOIN chinook.invoice_items II
