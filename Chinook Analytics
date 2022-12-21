@@ -111,4 +111,13 @@ ON t.mediatypeid = mt.mediatypeid
 GROUP BY mt.name
 ORDER BY Total DESC;
 
+#16 Show all the play lists each track appears on.
+Select t.name as 'Track Name', pl.name as 'Play List'
+FROM chinook.playlists pl
+JOIN chinook.playlist_track pt
+ON pl.playlistid = pt.playlistid
+JOIN chinook.tracks t
+ON pt.trackid = t.trackid
+GROUP BY t.name, pl.name
+
 
